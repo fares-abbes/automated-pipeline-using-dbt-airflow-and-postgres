@@ -1,0 +1,12 @@
+my_project:
+  outputs:
+    dev:
+      type: postgres
+      host: db
+      user: db_user
+      password: db_password
+      port: 5432
+      dbname: db
+      schema: public
+      threads: 1
+  target: dev
