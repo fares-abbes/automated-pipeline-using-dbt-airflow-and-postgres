@@ -7,6 +7,6 @@ my_project:
       password: db_password
       port: 5432
       dbname: db
-      schema: public
+      schema: dev
       threads: 1
   target: dev

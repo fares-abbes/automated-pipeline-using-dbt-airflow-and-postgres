@@ -1,7 +1,7 @@
 import requests
 api_key="494e662c393d6879785d7e0c636809c6"
-api_url =" http://api.weatherstack.com/current?access_key={api_key}&query=New York"
-def  fetch_data():
+api_url = f"http://api.weatherstack.com/current?access_key={api_key}&query=New York"
+def fetch_data():
     try:
         response = requests.get(api_url)
         response.raise_for_status()

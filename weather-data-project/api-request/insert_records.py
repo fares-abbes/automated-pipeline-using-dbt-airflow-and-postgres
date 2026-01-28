@@ -34,7 +34,7 @@ def create_table(conn):
                 weather_description TEXT,
                 wind_speed FLOAT,
                 time TIMESTAMP,
-                interested_at TIMESTAMP DEFAULT NOw(),
+                inserted_at TIMESTAMP DEFAULT NOW(),
                 utc_offset TEXT 
             )
         """)
@@ -53,7 +53,7 @@ def insert_records(conn, data):
         location = data["location"]
         cursor = conn.cursor()
         cursor.execute("""
-            INSERT INTO dev.raw_weather_data (city, temperature, weather_description, wind_speed, time, interested_at, utc_offset) values (%s, %s, %s, %s, %s, NOW(), %s) """, (
+            INSERT INTO dev.raw_weather_data (city, temperature, weather_description, wind_speed, time, inserted_at, utc_offset) values (%s, %s, %s, %s, %s, NOW(), %s) """, (
                 location['name'],
                 weather['temperature'],
                 weather['weather_descriptions'][0], 
@@ -69,13 +69,17 @@ def insert_records(conn, data):
 
 def main():
     try:
-        data = fetch_data()
-       # data = mock_fetch_data()
+        print("Attempting to fetch data from API...")
+        data = mock_fetch_data()
+        print(f"Successfully fetched data: {data.get('location', {}).get('localtime')}")
         conn = connect_to_db()
         create_table(conn)
         insert_records(conn, data)
     except Exception as e:
         print(f"An error occurred in main: {e}")
+        print(f"Error type: {type(e).__name__}")
+        import traceback
+        traceback.print_exc()
     finally:
         if 'conn' in locals():
             conn.close()
